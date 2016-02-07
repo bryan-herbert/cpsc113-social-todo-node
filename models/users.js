@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-mongoose.connect(process.env.MONGO_URL);
 var SALT_WORK_FACTOR = 10;
 
 var Schema = mongoose.Schema,

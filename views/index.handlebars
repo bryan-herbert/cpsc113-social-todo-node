@@ -1,11 +1,4 @@
-<h1>Herb's Corner: To-Do List</h1>
-
-<div>
-    We currently have {{userCount}} users. 
-    {{#if currentUser}}
-        Your name is <b>{{currentUser.name}}</b>
-    {{/if}}
-</div>
+<h1>Social Todo app for CPSC 113</h1>
 
 {{#if errors}}
 <div style="color:red">
@@ -14,6 +7,41 @@
 {{/if}}
 
 
+
+{{#if currentUser}}
+    <h2>Welcome, {{currentUser.name}}</h2>
+    <div>
+        <h4>Your Tasks</h4>
+        
+        {{#if tasks}}
+            <ul>
+            {{#each tasks}}
+              <li>{{this.title}}</li>
+            {{/each}}
+            </ul>
+        {{else}}
+            No tasks to show!
+        {{/if}}
+    </div>
+    
+    <hr>
+    <div>
+        <h4>Add a new task</h4>
+       
+        <form action='/tasks/create' method="POST">
+            <label for='title'>Task title</label>
+            <input name='title' type='text'><br>
+            <label for='description'>Task Description</label>
+            <input name='description' type='text'><br>
+            Collaborators<br>
+            <input name='collaborator1' type='email'><br>
+            <input name='collaborator2' type='email'><br>
+            <input name='collaborator3' type='email'><br>
+            <input type='submit'>
+        </form>
+    </div>
+    
+{{else}}
 <div>
     <form class="login-form" action="/user/login" method="POST">
         <label for="email">Email</label>
@@ -39,3 +67,5 @@
       </div>
     </form>
 </div>
+
+{{/if}}
