@@ -1,9 +1,18 @@
-<h1>Example App: Home</h1>
+<h1>Herb's Corner: To-Do List</h1>
 
 <div>
-    We currently have {{userCount}} users.
-    
+    We currently have {{userCount}} users. 
+    {{#if currentUser}}
+        Your name is <b>{{currentUser.name}}</b>
+    {{/if}}
 </div>
+
+{{#if errors}}
+<div style="color:red">
+        {{errors}}
+</div>
+{{/if}}
+
 
 <div>
     <form class="login-form" actin="/user/login">
