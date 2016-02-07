@@ -3,9 +3,15 @@ var exphbs = require('express-handlebars');
 var app = express();
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
 var Users = require('./models/users.js');
 
 //Configure our app
+var store = new MongoDBStore({ 
+  uri: process.env.MONGO_URL,
+  collection: 'sessions'
+});
+      
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: true}));  //for parsing application
@@ -13,8 +19,9 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: 'auto' }
-}))
+  cookie: { secure: 'auto' },
+  store: store
+}));
 
 app.use(function(req, res, next){
   console.log('req.session =', req.session);
@@ -61,8 +68,28 @@ app.post('/user/register', function (req, res) {
       }else{
         res.redirect('/');
       }
-    })
+    });
     console.log('The user has the email address', req.body.email);
+});
+
+app.post('/user/login', function(req, res){
+  var user = Users.findOne({email: req.body.email}, function(err,user){
+    if(err || !user){
+      res.send('bad login, no such user');
+      return;
+    }
+     
+    console.log('user =', user);
+    console.log('actual password =', user.hashed_password);
+    console.log('provided password =', req.body.password);
+     
+    if(user.hashed_password === req.body.password){
+        req.session.userId = user._id;
+        res.redirect('/');
+    }else{
+      res.send('bad password duder');
+    }
+  });
 });
 
 app.get('/user/logout', function(req, res){
