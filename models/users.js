@@ -8,7 +8,7 @@ var Schema = mongoose.Schema,
 var stringField = {
     type: String,
     minlength: 1,
-    maxlength: 50,
+    maxlength: 50
 }
 
 var UserSchema = new Schema({
