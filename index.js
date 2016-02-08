@@ -85,6 +85,11 @@ app.post('/user/register', function (req, res) {
     res.render('index', {errors: err});
     return;
   }
+  if(req.body.fl_name.length < 1) {
+    err = 'name too short';
+    res.render('index', {errors: err});
+    return;
+  }
 
   // Save the new user
   var newUser = new Users();
@@ -146,6 +151,8 @@ app.post('/task/create', function(req, res){
   var newTask = new Tasks();
   newTask.owner = res.locals.currentUser._id;
   newTask.title = req.body.title;
+  newTask.isComplete = false;
+  newTask.
   newTask.description = req.body.description;
   newTask.collaborators = [req.body.collaborator1, req.body.collaborator2, req.body.collaborator3];
   newTask.save(function(err, savedTask){
@@ -155,6 +162,33 @@ app.post('/task/create', function(req, res){
       res.redirect('/');
     }
   });
+});
+
+app.get('/task/:id/complete', function(req,res){
+  var taskToComplete = req.params.id;
+  Tasks.findById(taskToComplete, function(err, task){
+  if(!err){
+    if(task.isComplete==false){
+      task.isComplete=true;
+  }else{
+    task.isComplete=false;
+  }
+  task.save();
+  res.redirect('/');
+    }
+  });
+});
+
+app.get('/task/:id/delete', function(req,res){
+  if(res.locals.currentUser){
+    var taskToDelete = req.params.id;
+    Tasks.findById(taskToDelete, function(err, task){
+      if(!err){
+      task.remove();
+      res.redirect('/'); 
+      }
+    });
+  }
 });
 
 // Start the server
