@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
-console.log("uri:", process.env.MONGOLAB_URI);
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URL);
 var Users = require('./models/users.js');
 var Tasks = require('./models/tasks.js');
@@ -14,7 +13,7 @@ var Tasks = require('./models/tasks.js');
 
 // Configure our app
 var store = new MongoDBStore({
-  uri: process.env.MONGO_URL,
+  uri: process.env.MONGOLAB_URI || process.env.MONGO_URL,
   collection: 'sessions'
 });
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
