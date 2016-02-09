@@ -5,21 +5,10 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var mongoose = require('mongoose');
-// mongoose.connect(process.env.MONGO_URL || prc);
+mongoose.connect(process.env.MONGO_URL || process.env.MONGOLAB_URI);
 var Users = require('./models/users.js');
 var Tasks = require('./models/tasks.js');
 
-app.configure('development', function() {
-  mongoose.connect(process.env.MONGO_URL);
-});
-
-// app.configure('test', function() {
-//   mongoose.connect('mongodb://'+ process.env.WERCKER_MONGODB_HOST + '/todos');
-// });
-
-app.configure('production', function() {
-  mongoose.connect('mongodb://' + process.env.MONGOLAB_URI);
-});
 
 
 // Configure our app
