@@ -1,1 +1,1 @@
-nodemon index.js
+web: git node index.js
