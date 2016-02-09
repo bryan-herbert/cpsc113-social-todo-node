@@ -21,7 +21,7 @@
                   </form>
                   {{#if this.isComplete}}
                   <form method="get" action="/task/{{this.id}}/complete">
-                    <input type="submit" name="toggle-task" class="complete-task toggle-task" value="Mark incomplete">
+                    <input type="submit" name="toggle-task" class="toggle-task complete-task" value="Mark incomplete">
                   </form>
                   {{else}}
                   <form method="get" action="/task/{{this.id}}/complete">

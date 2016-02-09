@@ -152,7 +152,6 @@ app.post('/task/create', function(req, res){
   newTask.owner = res.locals.currentUser._id;
   newTask.title = req.body.title;
   newTask.isComplete = false;
-  newTask.
   newTask.description = req.body.description;
   newTask.collaborators = [req.body.collaborator1, req.body.collaborator2, req.body.collaborator3];
   newTask.save(function(err, savedTask){
@@ -180,16 +179,19 @@ app.get('/task/:id/complete', function(req,res){
 });
 
 app.get('/task/:id/delete', function(req,res){
-  if(res.locals.currentUser){
-    var taskToDelete = req.params.id;
+  var taskToDelete = req.params.id;
     Tasks.findById(taskToDelete, function(err, task){
-      if(!err){
-      task.remove();
-      res.redirect('/'); 
-      }
-    });
-  }
+        if(res.locals.currentUser.id.toString() == task.owner.toString()){
+          if(!err){
+            // console.log(res.locals.currentUser);
+             task.remove();
+             res.redirect('/');
+          }
+    }
+  });
 });
+
+app.use(express.static(__dirname + '/public'));
 
 // Start the server
 app.listen(process.env.PORT, function () {
