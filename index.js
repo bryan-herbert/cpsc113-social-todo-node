@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGO_URL);
 var Users = require('./models/users.js');
 var Tasks = require('./models/tasks.js');
 
-
+app.use(express.static(__dirname + '/public'));
 
 // Configure our app
 var store = new MongoDBStore({
@@ -64,6 +64,13 @@ function loadUserTasks(req, res, next) {
       {collaborators: res.locals.currentUser.email}])
     .exec(function(err, tasks){
       if(!err){
+        tasks.forEach(function(task){
+          if(task.owner.toString()==res.locals.currentUser.id.toString()){
+            task.taskowner = true;
+          }else{
+            task.taskowner = false;
+          }
+        })
         res.locals.tasks = tasks;
       }
       next();
@@ -190,8 +197,6 @@ app.get('/task/:id/delete', function(req,res){
     }
   });
 });
-
-app.use(express.static(__dirname + '/public'));
 
 // Start the server
 app.listen(process.env.PORT, function () {

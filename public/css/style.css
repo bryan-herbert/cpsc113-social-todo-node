@@ -12,3 +12,12 @@ h2 {
     font-size: 20px;
     text-align: center;
 }
+
+h5 {
+    font: bold;
+    text-align: right;
+}
+
+img{
+    text-align: right;
+}

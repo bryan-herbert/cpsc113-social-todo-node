@@ -2,6 +2,11 @@
 
 <h2>CPSC113 Social ToDo App</h2>
 
+<div>
+    <h5>Don't feel like this!</h5>
+    <img src="http://ordiate.com/wp-content/uploads/2013/04/stress.jpg" alt="Stress" style="width:304px;height:228px;">
+</div>
+
 {{#if errors}}
 <div style="color:red" class="validation-error">
     {{errors}}
@@ -16,14 +21,16 @@
         {{#if tasks}}
             <ul>
             {{#each tasks}}
-                <li class="tasks-list-item">
+                <li class="tasks-list-item {{#if this.isComplete}} complete-task {{/if}}">
                   <span class="task-title">{{this.title}}</span>
+                  {{#if this.taskowner}}
                   <form method="get" action="/task/{{this.id}}/delete">
                     <input type="submit" name="delete-task" class="delete-task" value="Delete">
                   </form>
+                  {{/if}}
                   {{#if this.isComplete}}
                   <form method="get" action="/task/{{this.id}}/complete">
-                    <input type="submit" name="toggle-task" class="toggle-task complete-task" value="Mark incomplete">
+                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark incomplete">
                   </form>
                   {{else}}
                   <form method="get" action="/task/{{this.id}}/complete">
