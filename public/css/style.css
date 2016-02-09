@@ -1,5 +1,5 @@
 body {
-    background-color: #d0e4fe;
+    background-color: #3300FF;
 }
 
 h1 {
@@ -11,13 +11,15 @@ h2 {
     font-family: "Times New Roman";
     font-size: 20px;
     text-align: center;
+    color: orange;
 }
 
 h5 {
     font: bold;
-    text-align: right;
+    text-align: left;
+    color: white;
 }
 
-img{
-    text-align: right;
+h3, h4, ul, form{
+    color: white;
 }
